@@ -21,7 +21,7 @@ class DashboardPage extends React.Component {
     fetch('/api/tasks/fetch')
       .then(response => response.json())
       .then(data => {
-        this.setState({taskList : data})
+        this.setState({taskList : data.tasksList})
       })
       .catch(err => console.log("ERREUR " + err));
   }
