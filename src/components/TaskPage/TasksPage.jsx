@@ -28,11 +28,9 @@ class DashboardPage extends React.Component {
         }})
       .then(response => response.json())
       .then(data => {
-        console.log("??  " + data)
-        console.log(data)
         this.setState({taskList : data.tasks})
       })
-      .catch(err => console.log("here3 " + err));
+      .catch(err => console.log(err));
   }
 
   addTask(){
