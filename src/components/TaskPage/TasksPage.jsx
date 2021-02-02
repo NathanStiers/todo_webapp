@@ -18,13 +18,21 @@ class DashboardPage extends React.Component {
   }
 
   fetchTaskList(){
-    console.log("here")
-    fetch('/api/tasks/fetch')
+    fetch('/api/tasks/fetch', {
+        method: 'get',
+        headers: {
+          'Accept': '*/*',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'Connection': 'keep-alive',
+          'Cache-control': 'no-cache'
+        }})
       .then(response => response.json())
       .then(data => {
-        this.setState({taskList : data.tasksList})
+        console.log("??  " + data)
+        console.log(data)
+        this.setState({taskList : data.tasks})
       })
-      .catch(err => console.log("here3"));
+      .catch(err => console.log("here3 " + err));
   }
 
   addTask(){
@@ -67,7 +75,6 @@ class DashboardPage extends React.Component {
         <br/><br/>
         <div id="list" className="list">
           {this.state.taskList.map((item, i) => {
-            console.log(this.state.taskList)
             return (<div key={i} className="containerTask borderTask">
                 <p className="taskItem">{item}</p>
                 <img src={Delete} id={i} onClick={this.deleteTask.bind(this)} className="picture"/>
