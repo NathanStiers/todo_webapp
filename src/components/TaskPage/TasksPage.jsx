@@ -1,12 +1,13 @@
 import React from 'react'
 
-import Delete from '../../assets/delete.png'
+import Delete from '../../assets/images/delete.png'
 
-import './TaskPage.scss'
+import '../../assets/styles/TaskPage.scss'
 
 class DashboardPage extends React.Component {
   constructor(props) {
     super(props);
+    this.input = React.createRef()
     this.state = {
       taskList : [],
       newTask : ""
@@ -34,6 +35,10 @@ class DashboardPage extends React.Component {
   }
 
   addTask(){
+    if(this.state.newTask === ""){
+      alert("The input is still empty...")
+      return;
+    }
     let tmp = this.state.taskList;
     tmp.push(this.state.newTask);
     this.setState({taskList : tmp});
@@ -42,6 +47,8 @@ class DashboardPage extends React.Component {
       .then(data => {
         console.log(data)
         this.fetchTaskList()
+        this.input.current.value = ''
+        this.setState({newTask : ""})
         alert("Successfuly added")
       })
       .catch(err => console.log("ERREUR " + err));
@@ -65,17 +72,17 @@ class DashboardPage extends React.Component {
   render(){
     return (
       <div id="container">
-        <h1 id="titreApp">TodoApp</h1>
+        <h1 id="titreApp">To Do App</h1>
         <div className="addPart">
-          <input type="text" id="addInput" onChange={this.handleChange.bind(this)} placeholder="What's next ?"></input>
-          <button onClick={this.addTask.bind(this)} id="addButton">Add a task</button>
+          <input type="text" id="addInput" ref={this.input} onChange={this.handleChange.bind(this)} placeholder="What's next ?"></input>
+          <button onClick={this.addTask.bind(this)} id="addButton"></button>
         </div>
         <br/><br/>
         <div id="list" className="list">
           {this.state.taskList.map((item, i) => {
             return (<div key={i} className="containerTask borderTask">
                 <p className="taskItem">{item}</p>
-                <img src={Delete} id={i} onClick={this.deleteTask.bind(this)} className="picture"/>
+                <div id={i} onClick={this.deleteTask.bind(this)} className="picture"/>
               </div>) 
           })}
         </div>
